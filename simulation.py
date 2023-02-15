@@ -13,3 +13,4 @@ class Simulation():
     def __init__(self, nodes, epochs):
         self.nodes = nodes
         self.epochs = epochs
+    "L'école de la débrouille"
