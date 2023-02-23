@@ -2,15 +2,18 @@ class Device():
     '''
     Device
     '''
-    def __init__(self, id, type):
+    def __init__(self, id):
         self.id = id
-        self.type = type
 
     def __str__(self):
-        return "Device id : " + id + " type: " + type
+        template = "Device id : {}"
+        return template.format(self.id)
     
-    def transmit(self):
-        return 0
+    def transmit(self, information, target):
+        return target.receive(package(self, self.id, information))
+
+    def package(self, id, payload):
+        return {'id': id, 'payload': payload}
 
     def standby(self):
         return 0
