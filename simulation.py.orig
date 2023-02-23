@@ -16,6 +16,7 @@ class Simulation():
 
     def __init__(self, nodes, lifespan, tfMax, epochs = 0):
         self.nodes = nodes
+<<<<<<< HEAD
         self.nb_nodes = len(self.nodes)
         self.lifespan = lifespan
         self.tfMax = tfMax
@@ -28,15 +29,6 @@ class Simulation():
             print(device)
         return "EOL"
     
-    def predictDevices(self):
-        for device in self.nodes:
-            device.predict()
-            #print(str(device) + ' probability P is ' + str(device.probaP))
-
-    def activateDevices(self, monitor):
-        for device in self.nodes:
-            device.transmit("Aloha !", monitor)
-
     def isTF(self):
         if self.tfValue==self.tfMax:
             self.tfValue = 0
@@ -59,3 +51,9 @@ class Simulation():
         self.isRunning = False
         print("### End of SIMULATION ###")
         
+
+        
+=======
+        self.epochs = epochs
+    "L'école de la débrouille"
+>>>>>>> ec7a846b1f54b3507902a273db19981f911f3a1d
