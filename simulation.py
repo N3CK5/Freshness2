@@ -16,6 +16,7 @@ class Simulation():
 
     def __init__(self, nodes, lifespan, tfMax, epochs = 0):
         self.nodes = nodes
+<<<<<<< HEAD
         self.nb_nodes = len(self.nodes)
         self.lifespan = lifespan
         self.tfMax = tfMax
@@ -49,6 +50,4 @@ class Simulation():
     def end(self):
         self.isRunning = False
         print("### End of SIMULATION ###")
-        
-
         
