@@ -15,7 +15,7 @@ class Simulation():
     tfValue = 0
     activatedDevicesList = []
     
-    def __init__(self, nodes, lifespan, tfMax, epochs = 1):
+    def __init__(self, nodes, lifespan, tfMax, epochs = 0):
         self.nodes = nodes
         self.nb_nodes = len(self.nodes)
         self.lifespan = lifespan
@@ -36,9 +36,12 @@ class Simulation():
 
     def activateDevices(self, monitor):
         for device in self.nodes:
-            if (device.id == 1 or device.id == 4)and device.isActive == False:
+            if not device.isActive:
                 self.activatedDevicesList.append(device.transmit("Aloha !", monitor))
                 device.isActive = True
+            
+        self.activatedDevicesList = [device for device in self.activatedDevicesList if device != 0]
+        
 
     def isTF(self):
         if self.tfValue==self.tfMax:
@@ -60,11 +63,11 @@ class Simulation():
         #making sure transmission duration = TF for transmitting devices
         listOfDeviceToRemove = []
         for device in self.activatedDevicesList:
-            if device and device['self'].isActive:
+            if device['self'].isActive:
                 device['self'].epoch += 1
-                if device and device['self'].epoch >= (self.tfMax):
-                    device['self'].standDown()
-                    listOfDeviceToRemove.append(device)
+            if device['self'].epoch >= (self.tfMax):
+                device['self'].standDown()
+                listOfDeviceToRemove.append(device)
                                         
         self.removeDevice(listOfDeviceToRemove)
 

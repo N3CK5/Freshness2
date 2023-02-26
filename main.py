@@ -14,7 +14,7 @@ from celluloid import Camera
 #plt.style.use('fivethirtyeight')
 
 NB_DEVICES = 4
-SIM_LIFESPAN = 8
+SIM_LIFESPAN = 10
 SIM_TF = 2
 
 
@@ -42,6 +42,7 @@ y_vals = []
 snap = Camera(fig)
 
 def display(activatedDevicesList, camera):
+    print("sortie fonction display : ", activatedDevicesList)
     for device in activatedDevicesList:
         rectangle = Rectangle( (sim.epochs, device['id'] - 1), 1, 1, edgecolor = 'green', facecolor='none', lw = 1)
         ax.add_patch(rectangle)
@@ -61,9 +62,8 @@ while(sim.isRunning):
     print(sim.activatedDevicesList)
 
 
-    
+    display(sim.activatedDevicesList, snap)
     print(sim.status())
-    #display(activatedDevicesList, snap)
     
     sim.epochs += 1
     sim.tfValue += 1
@@ -73,6 +73,6 @@ while(sim.isRunning):
         
 
 #print(mainMonitor.db)
-#animation = snap.animate()
-#animation.save('animation.gif', writer='PillowWriter', fps=2)
+animation = snap.animate()
+animation.save('animation.gif', writer='PillowWriter', fps=2)
 
