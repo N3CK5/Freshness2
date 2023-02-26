@@ -13,8 +13,9 @@ class Simulation():
 
     isRunning = False
     tfValue = 0
-
-    def __init__(self, nodes, lifespan, tfMax, epochs = 0):
+    activatedDevicesList = []
+    
+    def __init__(self, nodes, lifespan, tfMax, epochs = 1):
         self.nodes = nodes
         self.nb_nodes = len(self.nodes)
         self.lifespan = lifespan
@@ -35,7 +36,9 @@ class Simulation():
 
     def activateDevices(self, monitor):
         for device in self.nodes:
-            device.transmit("Aloha !", monitor)
+            if (device.id == 1 or device.id == 4)and device.isActive == False:
+                self.activatedDevicesList.append(device.transmit("Aloha !", monitor))
+                device.isActive = True
 
     def isTF(self):
         if self.tfValue==self.tfMax:
@@ -50,12 +53,32 @@ class Simulation():
 
     def start(self):
         self.isRunning=True
-        print("### Start of SIMULATION ###")
+        print("___### Start of SIMULATION ###___")
 
     def status(self):
-        print("EPOCH ", self.epochs)
+        #status is called every main loop iteration (=every epoch)
+        #making sure transmission duration = TF for transmitting devices
+        listOfDeviceToRemove = []
+        for device in self.activatedDevicesList:
+            if device and device['self'].isActive:
+                device['self'].epoch += 1
+                if device and device['self'].epoch >= (self.tfMax):
+                    device['self'].standDown()
+                    listOfDeviceToRemove.append(device)
+                                        
+        self.removeDevice(listOfDeviceToRemove)
 
+
+                
+                
+        return "ELOCH ELAPSED : {}".format(self.epochs)
+
+    def removeDevice(self, devicesToRemove):
+        for device in devicesToRemove:
+            self.activatedDevicesList.remove(device)
+                
     def end(self):
         self.isRunning = False
-        print("### End of SIMULATION ###")
+        print("___### End of SIMULATION ###___")
+        
         
