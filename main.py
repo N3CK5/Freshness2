@@ -13,8 +13,8 @@ from celluloid import Camera
 
 #plt.style.use('fivethirtyeight')
 
-NB_DEVICES = 4
-SIM_LIFESPAN = 10
+NB_DEVICES = 3
+SIM_LIFESPAN = 20
 SIM_TF = 2
 
 

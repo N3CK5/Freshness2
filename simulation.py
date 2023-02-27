@@ -38,7 +38,6 @@ class Simulation():
         for device in self.nodes:
             if not device.isActive:
                 self.activatedDevicesList.append(device.transmit("Aloha !", monitor))
-                device.isActive = True
             
         self.activatedDevicesList = [device for device in self.activatedDevicesList if device != 0]
         
@@ -70,6 +69,7 @@ class Simulation():
                 listOfDeviceToRemove.append(device)
                                         
         self.removeDevice(listOfDeviceToRemove)
+        print(self.activatedDevicesList)
 
 
                 

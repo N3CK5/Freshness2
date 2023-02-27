@@ -21,7 +21,7 @@ class Device():
         self.probaQ = random.random()
 
     def transmit(self, information, target):
-        if (random.random() < 0.8): 
+        if (random.random() < 0.3): 
             self.isActive = True
             return target.receive(self.package(self.id, information))
         else:
