@@ -1,5 +1,3 @@
-#%% 
-
 import random
 import time
 from device import Device
@@ -11,20 +9,20 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from celluloid import Camera
 
-#plt.style.use('fivethirtyeight')
-
-NB_DEVICES = 3
+#CONSTANTS
+NB_DEVICES = 8
 SIM_LIFESPAN = 20
 SIM_TF = 2
 
 
-#initialization for Simulation, Monitor, Devices
+#INITIALIZING Simulation, Devices and Monitor
 devicesList = [Device(i+1) for i in range(NB_DEVICES)]
 mainMonitor = Monitor()
 sim = Simulation(devicesList, SIM_LIFESPAN, SIM_TF)
 sim.start()
 
 
+#INITIALIZING PLOTTING AND VISUAL REPRESENTATION
 # create figure object
 fig = plt.figure(figsize=(15, 4), dpi=200)
 # load axis box
@@ -32,28 +30,32 @@ ax = plt.axes()
 #set x and y axis vals
 x = np.arange(0, SIM_LIFESPAN + 1, 1)
 y = np.arange(0, NB_DEVICES + 1, 1)
-
 plt.xticks(x)
 plt.yticks(y)
 x_vals = []
 y_vals = []
-
+listOfPatches = []
 #setup snpashot cam
 snap = Camera(fig)
 
+#Display function for processing data and displaying it with matplotlib
 def display(activatedDevicesList, camera):
-    print("sortie fonction display : ", activatedDevicesList)
-    for device in activatedDevicesList:
-        rectangle = Rectangle( (sim.epochs, device['id'] - 1), 1, 1, edgecolor = 'green', facecolor='none', lw = 1)
-        ax.add_patch(rectangle)
-        rx, ry = rectangle.get_xy()
-        cx = rx + rectangle.get_width()/2.0
-        cy = ry + rectangle.get_height()/2.0
-        ax.annotate('device  {}'.format(device['id']), (cx, cy), color='green', weight='bold', fontsize=6, ha='center', va='center')
     
+    for device in activatedDevicesList:
+        rectangle = Rectangle((sim.epochs, device['id'] - 1), 1, 1, edgecolor = 'green', facecolor='none', lw = 1)
+        listOfPatches.append([device['id'],rectangle])
+    
+    for patch in listOfPatches:
+        ax.add_patch(patch[1])
+        rx, ry = patch[1].get_xy()
+        cx = rx + patch[1].get_width()/2.0
+        cy = ry + patch[1].get_height()/2.0
+        ax.annotate('device  {}'.format(patch[0]), (cx, cy), color='green', weight='bold', fontsize=6, ha='center', va='center')
+        
     plt.pause(0.1)    
     camera.snap()
-    
+
+#Main Simulation Loop
 while(sim.isRunning):
 
     sim.predictDevices()
@@ -66,7 +68,6 @@ while(sim.isRunning):
     print(sim.status())
     
     sim.epochs += 1
-    sim.tfValue += 1
     
     if(sim.isEnd()):
         sim.end()
