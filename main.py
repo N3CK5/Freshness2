@@ -3,6 +3,7 @@ import time
 from device import Device
 from monitor import Monitor
 from simulation import Simulation
+from Aloha import Aloha
 import numpy as np
 
 import matplotlib.pyplot as plt
@@ -10,9 +11,9 @@ from matplotlib.patches import Rectangle
 from celluloid import Camera
 
 #CONSTANTS
-NB_DEVICES = 8
+NB_DEVICES = 3
 SIM_LIFESPAN = 20
-SIM_TF = 2
+SIM_TF = 3
 
 
 #INITIALIZING Simulation, Devices and Monitor
