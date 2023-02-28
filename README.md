@@ -1,7 +1,7 @@
 # Freshness2
 Freshness2 Project for Game Theory @CentraleSupelec
 
-Example of visual output for :
+Example of output for :
 NB_DEVICES = 3
 SIM_LIFESPAN = 20
 SIM_TF = 2
