@@ -1,6 +1,7 @@
 import random 
+from Aloha import Aloha 
 
-class Device():
+class Device(Aloha):
     '''
     Class Device for Simulating a device in the Network
     
