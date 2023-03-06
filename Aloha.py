@@ -14,7 +14,7 @@ class Aloha():
         self.list_of_lambda_e = []
         
     # computed by one of the nodes Ne  
-    def cost_function(self, w_e, lambda_e, eta_m, theta_e, ratio_lambda_theta_prime):
+    def compute_lambda_e(self, w_e, lambda_e, eta_m, theta_e, ratio_lambda_theta_prime):
 
         return lambda_e + eta_m * ( np.log(w_e/lambda_e) + np.log(1 + (theta_e/lambda_e)) +  ratio_lambda_theta_prime)
     
@@ -61,7 +61,7 @@ class Aloha():
                 # Compute lambda_e_prime and theta_e_prime ratios 
                 # and compute new lambda_e(m+1) of current device
                 ratio_lambda_theta_prime = self.compute_ratio(device.id)
-                lambda_e_current_device = self.cost_function(w_e = 1, lambda_e = device.lambda_e, eta_m = 1, theta_e = device.theta_e , ratio_lambda_theta_prime = ratio_lambda_theta_prime)
+                lambda_e_current_device = self.compute_lambda_e(w_e = 1, lambda_e = device.lambda_e, eta_m = 1, theta_e = device.theta_e , ratio_lambda_theta_prime = ratio_lambda_theta_prime)
                 
                 #Send lambda_e(m+1) of current device to all other devices
                 self.update_lambda_e_list()
