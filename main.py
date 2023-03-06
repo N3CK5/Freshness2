@@ -11,13 +11,14 @@ from matplotlib.patches import Rectangle
 from celluloid import Camera
 
 #CONSTANTS
-NB_DEVICES = 3
+NB_DEVICES = 10
 SIM_LIFESPAN = 20
 SIM_TF = 3
 
 
 #INITIALIZING Simulation, Devices and Monitor
-devicesList = [Device(i+1, theta_e = NB_DEVICES, lambda_e = 1, p_e = 0.5) for i in range(NB_DEVICES)]
+devicesList = [Device(i+1, w_e = 1, theta_e = NB_DEVICES, lambda_e = 1, p_e = 0.5) for i in range(NB_DEVICES)]
+devicesList[0].w_e = 10
 mainMonitor = Monitor()
 
 
@@ -26,16 +27,9 @@ mainMonitor = Monitor()
 
 aloha = Aloha(devicesList)
 
-aloha.run_algorithm(50)
+aloha.run_algorithm(10, eta = 100)
 
-
-
-
-
-
-
-
-
+print(aloha.display_pe())
 
 
 
@@ -47,8 +41,8 @@ aloha.run_algorithm(50)
 
 
 
-sim = Simulation(devicesList, SIM_LIFESPAN, SIM_TF)
-sim.start()
+#sim = Simulation(devicesList, SIM_LIFESPAN, SIM_TF)
+#sim.start()
 
 
 #INITIALIZING PLOTTING AND VISUAL REPRESENTATION
@@ -85,7 +79,8 @@ def display(activatedDevicesList, camera):
     camera.snap()
 
 #Main Simulation Loop
-while(sim.isRunning):
+#while(sim.isRunning):
+while(False):
 
     sim.predictDevices()
     sim.activateDevices(mainMonitor)
@@ -103,6 +98,6 @@ while(sim.isRunning):
         
 
 #print(mainMonitor.db)
-animation = snap.animate()
-animation.save('animation.gif', writer='PillowWriter', fps=2)
+#animation = snap.animate()
+#animation.save('animation.gif', writer='PillowWriter', fps=2)
 

@@ -12,14 +12,17 @@ class Device(Aloha):
         - [int] epoch = LOCAL epoch for the device used to track how many epochs elapsed after device started his transmission
     '''
 
-    def __init__(self, id, isActive = False, epoch = 0, theta_e, lambde_e, p_e):
+    def __init__(self, id, w_e, theta_e, lambda_e, p_e, isActive = False, epoch = 0):
         self.id = id
-        self.probaP = 0
-        self.isActive = isActive
-        self.epoch = epoch
+        self.w_e = w_e
         self.theta_e = theta_e
         self.lambda_e = lambda_e
         self.p_e = p_e
+        self.isActive = isActive
+        self.epoch = epoch
+        self.probaP = 0
+
+
     
     # special function for displaying a device information 
     def __str__(self):

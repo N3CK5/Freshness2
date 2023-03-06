@@ -18,11 +18,6 @@ class Aloha():
 
         return lambda_e + eta_m * ( np.log(w_e/lambda_e) + np.log(1 + (theta_e/lambda_e)) +  ratio_lambda_theta_prime)
     
-    def sending_lambda(self):
-        pass
-    
-    def sending_thetas(self):
-        pass
     
     def compute_ratio(self, current_device_id):
         res = 0
@@ -34,7 +29,14 @@ class Aloha():
             
         return res
             
-            
+    def display_pe(self):
+        list_pe = []
+        
+        for device in self.devices:
+            list_pe.append(device.p_e)
+            print(device.w_e)
+        return list_pe
+        
     def compute_theta_e(self, current_device_id):
         res = 0
         for device in self.devices:
@@ -46,22 +48,22 @@ class Aloha():
         return res
     
     def update_theta_e_list(self):
-        list_of_theta_e = [device.theta_e for device in devices]
+        self.list_of_theta_e = [device.theta_e for device in self.devices]
     
     def update_lambda_e_list(self):
-        list_of_lambda_e = [device.lambda_e for device in devices]
+        self.list_of_lambda_e = [device.lambda_e for device in self.devices]
         
-    def run_algorithm(self, iterations, eta = 1):
+    def run_algorithm(self, iterations, eta):
         
         for m in range(iterations):
             for device in self.devices:
                 # Send theta_e(m) of current device to all other devices
-                self.update_lambda_e_list = update_lambda_e_list()
+                self.update_theta_e_list()
                 
                 # Compute lambda_e_prime and theta_e_prime ratios 
                 # and compute new lambda_e(m+1) of current device
                 ratio_lambda_theta_prime = self.compute_ratio(device.id)
-                lambda_e_current_device = self.compute_lambda_e(w_e = 1, lambda_e = device.lambda_e, eta_m = 1, theta_e = device.theta_e , ratio_lambda_theta_prime = ratio_lambda_theta_prime)
+                lambda_e_current_device = self.compute_lambda_e(w_e = device.w_e, lambda_e = device.lambda_e, eta_m = 1, theta_e = device.theta_e , ratio_lambda_theta_prime = ratio_lambda_theta_prime)
                 
                 #Send lambda_e(m+1) of current device to all other devices
                 self.update_lambda_e_list()
