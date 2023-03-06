@@ -27,10 +27,9 @@ mainMonitor = Monitor()
 
 aloha = Aloha(devicesList)
 
-aloha.run_algorithm(10, eta = 100)
+aloha.run_algorithm(1, eta = 1)
 
 print(aloha.display_pe())
-
 
 
 
