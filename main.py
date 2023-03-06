@@ -17,8 +17,36 @@ SIM_TF = 3
 
 
 #INITIALIZING Simulation, Devices and Monitor
-devicesList = [Device(i+1) for i in range(NB_DEVICES)]
+devicesList = [Device(i+1, theta_e = NB_DEVICES, lambda_e = 1, p_e = 0.5) for i in range(NB_DEVICES)]
 mainMonitor = Monitor()
+
+
+
+#--------------------------ALGORITHM ALOHA--------------------------------#
+
+aloha = Aloha(devicesList)
+
+aloha.run_algorithm(50)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#-------------------------------------------------------------------------#
+
+
+
+
 sim = Simulation(devicesList, SIM_LIFESPAN, SIM_TF)
 sim.start()
 
