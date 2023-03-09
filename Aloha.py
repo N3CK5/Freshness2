@@ -34,7 +34,6 @@ class Aloha():
         
         for device in self.devices:
             list_pe.append(device.p_e)
-            print(device.w_e)
         return list_pe
         
     def compute_theta_e(self, current_device_id):
@@ -54,8 +53,9 @@ class Aloha():
         self.list_of_lambda_e = [device.lambda_e for device in self.devices]
         
     def run_algorithm(self, iterations, eta):
-        
+        print("### RUNNING ALGORITHM ###")
         for m in range(iterations):
+            print("--- ITERATION N°", m)
             for device in self.devices:
                 # Send theta_e(m) of current device to all other devices
                 self.update_theta_e_list()
@@ -63,7 +63,9 @@ class Aloha():
                 # Compute lambda_e_prime and theta_e_prime ratios 
                 # and compute new lambda_e(m+1) of current device
                 ratio_lambda_theta_prime = self.compute_ratio(device.id)
+                
                 lambda_e_current_device = self.compute_lambda_e(w_e = device.w_e, lambda_e = device.lambda_e, eta_m = 1, theta_e = device.theta_e , ratio_lambda_theta_prime = ratio_lambda_theta_prime)
+                device.lambda_e = lambda_e_current_device 
                 
                 #Send lambda_e(m+1) of current device to all other devices
                 self.update_lambda_e_list()
@@ -73,3 +75,4 @@ class Aloha():
                 
                 #Compute new p_e of current device
                 device.p_e = (device.lambda_e / ( device.lambda_e + device.theta_e ) ) 
+                
