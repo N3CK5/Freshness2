@@ -11,14 +11,15 @@ from matplotlib.patches import Rectangle
 from celluloid import Camera
 
 #CONSTANTS
-NB_DEVICES = 3
+NB_DEVICES = 5
 SIM_LIFESPAN = 20
-SIM_TF = 3
+SIM_TF = 1
+ITERATIONS_ALOHA = 60
 
 
 #INITIALIZING Simulation, Devices and Monitor
 devicesList = [Device(i+1, w_e = 1, theta_e = NB_DEVICES, lambda_e = 1, p_e = 0.5) for i in range(NB_DEVICES)]
-devicesList[0].w_e = 5
+
 mainMonitor = Monitor()
 
 
@@ -27,11 +28,11 @@ mainMonitor = Monitor()
 
 aloha = Aloha(devicesList)
 
-aloha.run_algorithm(50, eta = 1)
-print(aloha.display_pe())
+aloha.run_algorithm(ITERATIONS_ALOHA, eta = 0.5)
+print("result for p_e's : ", aloha.display_pe())
+print("result for lambda_e's : ", aloha.display_lambda())
 
-
-
+aloha.plot_lambda(ITERATIONS_ALOHA)
 
 
 #-------------------------------------------------------------------------#

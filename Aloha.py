@@ -1,5 +1,7 @@
+import matplotlib.pyplot as plt
 import numpy as np
-
+import math
+  
 class Aloha():
     '''
     Distributed Computation of Policy pi_D Algorithm 1,
@@ -12,6 +14,8 @@ class Aloha():
         self.devices = devices
         self.list_of_theta_e = []
         self.list_of_lambda_e = []
+        self.lambda_plot_list = [[] for i in range(len(devices))]
+    
         
     # computed by one of the nodes Ne  
     def compute_lambda_e(self, w_e, lambda_e, eta_m, theta_e, ratio_lambda_theta_prime):
@@ -35,6 +39,13 @@ class Aloha():
         for device in self.devices:
             list_pe.append(device.p_e)
         return list_pe
+    
+    def display_lambda(self):
+        list_pe = []
+        
+        for device in self.devices:
+            list_pe.append(device.lambda_e)
+        return list_pe
         
     def compute_theta_e(self, current_device_id):
         res = 0
@@ -54,8 +65,12 @@ class Aloha():
         
     def run_algorithm(self, iterations, eta):
         print("### RUNNING ALGORITHM ###")
+        
         for m in range(iterations):
+            
             print("--- ITERATION N°", m)
+            device_nb = 0
+            
             for device in self.devices:
                 # Send theta_e(m) of current device to all other devices
                 self.update_theta_e_list()
@@ -76,3 +91,29 @@ class Aloha():
                 #Compute new p_e of current device
                 device.p_e = (device.lambda_e / ( device.lambda_e + device.theta_e ) ) 
                 
+                #for plotting lambda_e's
+                print(device.lambda_e)
+                self.lambda_plot_list[device_nb].append(device.lambda_e)
+                device_nb += 1
+                
+        
+    def plot_lambda(self, iterations):
+        # Using Numpy to create an array X
+        X = np.arange(0, iterations, 1)
+        plt.figure(figsize=(15, 8))
+        
+        # Plotting both the curves simultaneously
+        for y in self.lambda_plot_list:
+            plt.plot(X, y)
+        
+        # Naming the x-axis, y-axis and the whole graph
+        plt.xlabel("Iterations")
+        plt.ylabel("Lambda_e")
+        plt.title("Convergence of lambda e's for a fixed number of iterations")
+        
+        # Adding legend, which helps us recognize the curve according to it's color
+        plt.legend()
+        
+        # To load the display window
+        plt.show()
+        plt.savefig('lambda_convergence.png')
