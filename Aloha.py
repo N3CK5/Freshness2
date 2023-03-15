@@ -71,7 +71,7 @@ class Aloha():
             print("--- ITERATION N°", m)
             device_nb = 0
             
-            for device in self.devices:
+            """for device in self.devices:
                 # Send theta_e(m) of current device to all other devices
                 self.update_theta_e_list()
                 
@@ -89,10 +89,38 @@ class Aloha():
                 device.theta_e = self.compute_theta_e(device.id)
                 
                 #Compute new p_e of current device
-                device.p_e = (device.lambda_e / ( device.lambda_e + device.theta_e ) ) 
+                device.p_e = (device.lambda_e / ( device.lambda_e + device.theta_e ) )
                 
                 #for plotting lambda_e's
-                print(device.lambda_e)
+                print(device.id, device.lambda_e)
+                self.lambda_plot_list[device_nb].append(device.lambda_e)
+                device_nb += 1"""
+            
+            for device in self.devices:
+                # Send theta_e(m) of current device to all other devices
+                self.update_theta_e_list()
+                
+                # Compute lambda_e_prime and theta_e_prime ratios 
+                # and compute new lambda_e(m+1) of current device
+                ratio_lambda_theta_prime = self.compute_ratio(device.id)
+                
+                lambda_e_current_device = self.compute_lambda_e(w_e = device.w_e, lambda_e = device.lambda_e, eta_m = 1, theta_e = device.theta_e , ratio_lambda_theta_prime = ratio_lambda_theta_prime)
+                device.lambda_e_iterSuivante = lambda_e_current_device
+                
+            for device in self.devices:
+                device.lambda_e = device.lambda_e_iterSuivante
+            #Send lambda_e(m+1) of current device to all other devices
+            self.update_lambda_e_list()
+                
+            for device in self.devices:
+                #Compute new theta_e of current device
+                device.theta_e = self.compute_theta_e(device.id)
+                
+                #Compute new p_e of current device
+                device.p_e = (device.lambda_e / ( device.lambda_e + device.theta_e ) )
+                
+                #for plotting lambda_e's
+                print(device.id, device.lambda_e)
                 self.lambda_plot_list[device_nb].append(device.lambda_e)
                 device_nb += 1
                 

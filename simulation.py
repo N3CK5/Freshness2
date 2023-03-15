@@ -113,7 +113,7 @@ class Simulation():
     '''
     Function removeDevice to remove a device from the list of activated devices in the Network
     
-    param : [array] devicesToRemove 
+    param : [array] devicesToRemove
     return : None
     '''
     def removeDevice(self, devicesToRemove):

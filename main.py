@@ -11,9 +11,9 @@ from matplotlib.patches import Rectangle
 from celluloid import Camera
 
 #CONSTANTS
-NB_DEVICES = 5
+NB_DEVICES = 10
 SIM_LIFESPAN = 20
-SIM_TF = 1
+SIM_TF = 2
 ITERATIONS_ALOHA = 60
 
 
@@ -37,11 +37,6 @@ aloha.plot_lambda(ITERATIONS_ALOHA)
 
 #-------------------------------------------------------------------------#
 
-
-
-
-#sim = Simulation(devicesList, SIM_LIFESPAN, SIM_TF)
-#sim.start()
 
 
 #INITIALIZING PLOTTING AND VISUAL REPRESENTATION
@@ -77,14 +72,17 @@ def display(activatedDevicesList, camera):
     plt.pause(0.1)    
     camera.snap()
 
+sim = Simulation(devicesList, SIM_LIFESPAN, SIM_TF)
+sim.start()
+
 #Main Simulation Loop
-#while(sim.isRunning):
-while(False):
+while(sim.isRunning):
+#while(False):
 
     sim.predictDevices()
     sim.activateDevices(mainMonitor)
     
-    print(sim.activatedDevicesList)
+    #print(sim.activatedDevicesList)
 
 
     display(sim.activatedDevicesList, snap)
@@ -95,6 +93,8 @@ while(False):
     if(sim.isEnd()):
         sim.end()
         
+for i in range(len(devicesList)):
+    print(devicesList[i].p_e)
 
 #print(mainMonitor.db)
 #animation = snap.animate()

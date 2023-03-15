@@ -21,6 +21,7 @@ class Device(Aloha):
         self.isActive = isActive
         self.epoch = epoch
         self.probaP = 0
+        self.lambda_e_iterSuivante = self.lambda_e
 
 
     
