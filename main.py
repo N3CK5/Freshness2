@@ -97,6 +97,6 @@ for i in range(len(devicesList)):
     print(devicesList[i].p_e)
 
 #print(mainMonitor.db)
-#animation = snap.animate()
-#animation.save('animation.gif', writer='PillowWriter', fps=2)
+animation = snap.animate()
+animation.save('animation.gif', writer='PillowWriter', fps=2)
 

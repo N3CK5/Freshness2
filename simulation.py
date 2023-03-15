@@ -1,6 +1,3 @@
-import random
-
-
 class Simulation():
     '''
     Simulating an ALOHA Network. Each node tries to send into a single channel.
@@ -49,6 +46,18 @@ class Simulation():
             #print(str(device) + ' probability P is ' + str(device.probaP))
             
     '''
+    Function that makes each device listen to the network, so as later that it sends its information only if no other device is communicating
+    
+    param : None
+    return : None
+    '''
+    def oneDeviceIsAlreadyCommunicating(self):
+        for device in self.nodes:
+            if device.isActive:
+                return True
+        return False
+
+    '''
     Function to proceed to transmitting pool over all devices in the Network 
     Devices have to be inactive (!device.isActive) and can either transmit or not transmit
     results are then appended to activatedDevicesList and filtered if they are NULL(0)
@@ -57,11 +66,14 @@ class Simulation():
     return : None
     '''
     def activateDevices(self, monitor):
-        for device in self.nodes:
-            if not device.isActive:
-                self.activatedDevicesList.append(device.transmit("Aloha !", monitor))
-            
-        self.activatedDevicesList = [device for device in self.activatedDevicesList if device != 0]
+        if self.oneDeviceIsAlreadyCommunicating():
+            return
+        else :
+            for device in self.nodes:
+                if not device.isActive:
+                    self.activatedDevicesList.append(device.transmit("Aloha !", monitor))
+                
+            self.activatedDevicesList = [device for device in self.activatedDevicesList if device != 0]
         
     '''
     Function to check if simulation has to be ended
