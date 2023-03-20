@@ -12,8 +12,8 @@ from celluloid import Camera
 
 #CONSTANTS
 NB_DEVICES = 10
-SIM_LIFESPAN = 20
-SIM_TF = 2
+SIM_LIFESPAN = 100
+SIM_TF = 1
 ITERATIONS_ALOHA = 60
 
 
@@ -67,7 +67,7 @@ def display(activatedDevicesList, camera):
         rx, ry = patch[1].get_xy()
         cx = rx + patch[1].get_width()/2.0
         cy = ry + patch[1].get_height()/2.0
-        ax.annotate('device  {}'.format(patch[0]), (cx, cy), color='green', weight='bold', fontsize=6, ha='center', va='center')
+        #ax.annotate('device  {}'.format(patch[0]), (cx, cy), color='green', weight='bold', fontsize=6, ha='center', va='center')
         
     plt.pause(0.1)    
     camera.snap()
