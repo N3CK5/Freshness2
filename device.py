@@ -22,6 +22,7 @@ class Device(Aloha):
         self.epoch = epoch
         self.probaP = 0
         self.lambda_e_iterSuivante = self.lambda_e
+        self.comms_history = []
 
 
     

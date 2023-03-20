@@ -11,9 +11,9 @@ from matplotlib.patches import Rectangle
 from celluloid import Camera
 
 #CONSTANTS
-NB_DEVICES = 10
+NB_DEVICES = 3
 SIM_LIFESPAN = 100
-SIM_TF = 1
+SIM_TF = 3
 ITERATIONS_ALOHA = 60
 
 
@@ -53,7 +53,7 @@ x_vals = []
 y_vals = []
 listOfPatches = []
 #setup snpashot cam
-snap = Camera(fig)
+#snap = Camera(fig)
 
 #Display function for processing data and displaying it with matplotlib
 def display(activatedDevicesList, camera):
@@ -85,7 +85,7 @@ while(sim.isRunning):
     #print(sim.activatedDevicesList)
 
 
-    display(sim.activatedDevicesList, snap)
+    #display(sim.activatedDevicesList, snap)
     print(sim.status())
     
     sim.epochs += 1
@@ -96,7 +96,25 @@ while(sim.isRunning):
 for i in range(len(devicesList)):
     print(devicesList[i].p_e)
 
+
+for i in range(len(devicesList)):
+    devicesList[i].comms_history = [element for element in devicesList[i].comms_history if len(element) > 1]
+    
+    print(devicesList[i].comms_history)
+    
+
+fig, axs = plt.subplots(NB_DEVICES, sharex=True, sharey=True)
+fig.suptitle("Subplots for age of information")
+for k in range(NB_DEVICES):
+    for i in range(len(devicesList[k].comms_history) - 1): 
+        axs[k].plot([devicesList[k].comms_history[i][1], devicesList[k].comms_history[i+1][0]], [0, devicesList[k].comms_history[i+1][0] - devicesList[k].comms_history[i][0]])
+        axs[k].vlines(x = devicesList[k].comms_history[i+1][0], ymin = 0, ymax = devicesList[k].comms_history[i+1][0] - devicesList[k].comms_history[i][0])
+        axs[k].hlines(y = 0, xmin = devicesList[k].comms_history[i][0], xmax = devicesList[k].comms_history[i][1])
+    
+
+plt.savefig("AOI_graph.jpg")
+    
 #print(mainMonitor.db)
-animation = snap.animate()
-animation.save('animation.gif', writer='PillowWriter', fps=2)
+#animation = snap.animate()
+#animation.save('animation.gif', writer='PillowWriter', fps=2)
 

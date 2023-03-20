@@ -71,6 +71,9 @@ class Simulation():
         else :
             for device in self.nodes:
                 if not device.isActive:
+                    #adding t_debut to comms history
+                    device.comms_history.append([self.epochs])
+                    
                     self.activatedDevicesList.append(device.transmit("Aloha !", monitor))
                 
             self.activatedDevicesList = [device for device in self.activatedDevicesList if device != 0]
@@ -113,10 +116,14 @@ class Simulation():
         for device in self.activatedDevicesList:
             if device['self'].isActive:
                 device['self'].epoch += 1
+                
             if device['self'].epoch >= (self.tf):
+                #adding t_fin to comms history
+                device['self'].comms_history[-1].append(self.epochs)
+                
                 device['self'].standDown()
                 listOfDeviceToRemove.append(device)
-                                        
+
         self.removeDevice(listOfDeviceToRemove)
         print(self.activatedDevicesList)
         
