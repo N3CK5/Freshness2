@@ -3,6 +3,7 @@ from monitor import Monitor
 from simulation import Simulation
 from Aloha import Aloha
 import numpy as np
+import math
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
@@ -114,6 +115,51 @@ for i in range(NB_DEVICES):
             devicesList[i].comms_history = [[element, element + SIM_TF] for element in lI]
             devicesList[j].comms_history = [[element, element + SIM_TF] for element in lJ]
             #intersection = ensI.intersection(ensJ)
+
+
+    
+def retourneMoyenneAoI(ListeDevices):
+    listeMoyennesAoIParDevice = []
+    for k in range(NB_DEVICES):
+        moy = 0
+        nb = 0
+        if len(ListeDevices[k].comms_history) == 0:
+            listeMoyennesAoIParDevice.append(SIM_LIFESPAN)
+            continue
+        for i in range(len(ListeDevices[k].comms_history) - 1):
+            moy += ListeDevices[k].comms_history[i+1][0] - ListeDevices[k].comms_history[i][1]
+            nb += 1
+        listeMoyennesAoIParDevice.append(moy/nb)
+
+    return sum(listeMoyennesAoIParDevice)/len(listeMoyennesAoIParDevice)
+
+
+def retourneMaxAoI(ListeDevices):
+    listeMaxParDevice = []
+    for k in range(NB_DEVICES):
+        maximum = 0
+        if len(ListeDevices[k].comms_history) == 0:
+            listeMaxParDevice.append(SIM_LIFESPAN)
+            continue
+        for i in range(len(ListeDevices[k].comms_history) - 1):
+            if ListeDevices[k].comms_history[i+1][0] - ListeDevices[k].comms_history[i][1] > maximum:
+                maximum = ListeDevices[k].comms_history[i+1][0] - ListeDevices[k].comms_history[i][1]
+        listeMaxParDevice.append(maximum)
+    return max(listeMaxParDevice)
+
+def retourneMinAoI(ListeDevices):
+    listeMaxParDevice = []
+    for k in range(NB_DEVICES):
+        minimum = math.inf
+        if len(ListeDevices[k].comms_history) == 0:
+            listeMaxParDevice.append(SIM_LIFESPAN)
+            continue
+        for i in range(len(ListeDevices[k].comms_history) - 1):
+            if ListeDevices[k].comms_history[i+1][0] - ListeDevices[k].comms_history[i][1] < minimum :
+                minimum = ListeDevices[k].comms_history[i+1][0] - ListeDevices[k].comms_history[i][1]
+        listeMaxParDevice.append(minimum)
+    return max(listeMaxParDevice)
+
 
 for i in range(NB_DEVICES):
     print(devicesList[i].comms_history)
