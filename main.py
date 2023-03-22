@@ -10,8 +10,8 @@ from matplotlib.patches import Rectangle
 from celluloid import Camera
 
 #CONSTANTS
-NB_DEVICES = 7
-SIM_LIFESPAN = 100
+NB_DEVICES = 200
+SIM_LIFESPAN = 10000
 SIM_TF = 3
 ITERATIONS_ALOHA = 60
 
@@ -76,10 +76,12 @@ sim.start()
 
 #Main Simulation Loop
 while(sim.isRunning):
-#while(False):
 
     sim.predictDevices()
-    sim.activateDevices(mainMonitor)
+    
+    #wait for a number of epoch
+    if not sim.waitToSend(10):
+        sim.activateDevices(mainMonitor)
     
     #print(sim.activatedDevicesList)
 
@@ -91,8 +93,8 @@ while(sim.isRunning):
     
     if(sim.isEnd()):
         sim.end()
-        
-for i in range(len(devicesList)):
+    
+""" for i in range(len(devicesList)):
     print(devicesList[i].p_e)
 
 
@@ -167,12 +169,13 @@ for i in range(NB_DEVICES):
 
 fig, axs = plt.subplots(NB_DEVICES, sharex=True, sharey=True)
 fig.suptitle("Age of Information for each device")
-"""for k in range(NB_DEVICES):
+
+for k in range(NB_DEVICES):
     for i in range(len(devicesList[k].comms_history) - 1):
         axs[k].plot([devicesList[k].comms_history[i][1], devicesList[k].comms_history[i+1][0]], [0, devicesList[k].comms_history[i+1][0] - devicesList[k].comms_history[i][0]])
         axs[k].vlines(x = devicesList[k].comms_history[i+1][0], ymin = 0, ymax = devicesList[k].comms_history[i+1][0] - devicesList[k].comms_history[i][0])
         axs[k].hlines(y = 0, xmin = devicesList[k].comms_history[i][0], xmax = devicesList[k].comms_history[i][1])
-"""
+
 
 X = [[] for k in range(NB_DEVICES)]
 Y = [[] for k in range(NB_DEVICES)]
@@ -210,9 +213,9 @@ for k in range(NB_DEVICES):
 
 plt.setp(axs[-1], xlabel='Time (in epochs)')
 for i in range(NB_DEVICES):
-    plt.setp(axs[i], ylabel='AoI (in epochs)')
+    plt.setp(axs[i], ylabel='AoI (in epochs)') """
 
-plt.savefig("AOI_graph.jpg")
+#plt.savefig("AOI_graph.jpg")
 
 #print(mainMonitor.db)
 #animation = snap.animate()
