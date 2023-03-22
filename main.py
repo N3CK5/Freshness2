@@ -101,6 +101,24 @@ for i in range(len(devicesList)):
     devicesList[i].comms_history = [element for element in devicesList[i].comms_history if len(element) > 1]
     
     print(devicesList[i].comms_history)
+
+for i in range(NB_DEVICES):
+    for j in range(NB_DEVICES):
+        if i > j:
+            ensI = set([devicesList[i].comms_history[l][0] for l in range(len(devicesList[i].comms_history))])
+            ensJ = set([devicesList[j].comms_history[l][0] for l in range(len(devicesList[j].comms_history))])
+            ensI1 = ensI - ensJ
+            ensJ1 = ensJ - ensI
+            lI = list(ensI1)
+            lJ = list(ensJ1)
+            lI.sort()
+            lJ.sort()
+            devicesList[i].comms_history = [[element, element + SIM_TF-1] for element in lI]
+            devicesList[j].comms_history = [[element, element + SIM_TF-1] for element in lJ]
+            #intersection = ensI.intersection(ensJ)
+
+for i in range(NB_DEVICES):
+    print(devicesList[i].comms_history)
     
 
 fig, axs = plt.subplots(NB_DEVICES, sharex=True, sharey=True)
