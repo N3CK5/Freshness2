@@ -125,9 +125,15 @@ class Simulation():
                 listOfDeviceToRemove.append(device)
 
         self.removeDevice(listOfDeviceToRemove)
-        print(self.activatedDevicesList)
+        #print(self.activatedDevicesList)
         
         return "EPOCH {}".format(self.epochs)
+
+    def waitToSend(self, epoch):
+        if self.epochs > epoch:
+            return True
+        else:
+            return False
     
     '''
     Function removeDevice to remove a device from the list of activated devices in the Network
@@ -148,5 +154,4 @@ class Simulation():
     def end(self):
         self.isRunning = False
         print("___### End of SIMULATION ###___")
-        
         
