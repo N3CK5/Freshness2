@@ -9,7 +9,7 @@ from matplotlib.patches import Rectangle
 from celluloid import Camera
 
 #CONSTANTS
-NB_DEVICES = 3
+NB_DEVICES = 7
 SIM_LIFESPAN = 100
 SIM_TF = 3
 ITERATIONS_ALOHA = 60
@@ -135,9 +135,10 @@ colorGraphs = {0: 'g-', 1:'b-', 2:'r-',3:'c-', 4:'k-', 5:'m-'}
 for k in range(NB_DEVICES):
     X[k].append(0)
     Y[k].append(0)
-    if len(devicesList[k].comms_history[0]) == 0:
+    if len(devicesList[k].comms_history) == 0:
         X[k].append(SIM_LIFESPAN)
-        Y[k].append(0)
+        Y[k].append(SIM_LIFESPAN)
+        axs[k].plot(X[k], Y[k], colorGraphs[k%len(colorGraphs)])
         continue
     X[k].append(devicesList[k].comms_history[0][0])
     Y[k].append(devicesList[k].comms_history[0][0])
