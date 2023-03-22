@@ -111,8 +111,8 @@ for i in range(NB_DEVICES):
             lJ = list(ensJ1)
             lI.sort()
             lJ.sort()
-            devicesList[i].comms_history = [[element, element + SIM_TF-1] for element in lI]
-            devicesList[j].comms_history = [[element, element + SIM_TF-1] for element in lJ]
+            devicesList[i].comms_history = [[element, element + SIM_TF] for element in lI]
+            devicesList[j].comms_history = [[element, element + SIM_TF] for element in lJ]
             #intersection = ensI.intersection(ensJ)
 
 for i in range(NB_DEVICES):
@@ -135,8 +135,13 @@ colorGraphs = {0: 'g-', 1:'b-', 2:'r-',3:'c-', 4:'k-', 5:'m-'}
 for k in range(NB_DEVICES):
     X[k].append(0)
     Y[k].append(0)
+    if len(devicesList[k].comms_history[0]) == 0:
+        X[k].append(SIM_LIFESPAN)
+        Y[k].append(0)
+        continue
     X[k].append(devicesList[k].comms_history[0][0])
     Y[k].append(devicesList[k].comms_history[0][0])
+    i = -1
     for i in range(len(devicesList[k].comms_history) - 1):
         X[k].append(devicesList[k].comms_history[i][0])
         Y[k].append(0)
@@ -146,7 +151,9 @@ for k in range(NB_DEVICES):
         Y[k].append(devicesList[k].comms_history[i+1][0] - devicesList[k].comms_history[i][0])
         X[k].append(devicesList[k].comms_history[i+1][0])
         Y[k].append(0)
-    
+    #if len(devicesList[k].comms_history) == 1:
+    #    X[k].append(SIM_LIFESPAN)
+    #    Y[k].append(0)
     if devicesList[k].comms_history[i+1][0] < SIM_LIFESPAN - SIM_TF:
         X[k].append(devicesList[k].comms_history[i+1][0]+SIM_TF-1)
         Y[k].append(0)
