@@ -1,5 +1,3 @@
-import random
-import time
 from device import Device
 from monitor import Monitor
 from simulation import Simulation
@@ -122,7 +120,7 @@ for i in range(NB_DEVICES):
     
 
 fig, axs = plt.subplots(NB_DEVICES, sharex=True, sharey=True)
-fig.suptitle("Subplots for age of information")
+fig.suptitle("Age of Information for each device")
 """for k in range(NB_DEVICES):
     for i in range(len(devicesList[k].comms_history) - 1):
         axs[k].plot([devicesList[k].comms_history[i][1], devicesList[k].comms_history[i+1][0]], [0, devicesList[k].comms_history[i+1][0] - devicesList[k].comms_history[i][0]])
@@ -150,10 +148,15 @@ for k in range(NB_DEVICES):
         Y[k].append(0)
     
     if devicesList[k].comms_history[i+1][0] < SIM_LIFESPAN - SIM_TF:
+        X[k].append(devicesList[k].comms_history[i+1][0]+SIM_TF-1)
+        Y[k].append(0)
         X[k].append(SIM_LIFESPAN)
         Y[k].append(SIM_LIFESPAN - devicesList[k].comms_history[i+1][0])
     axs[k].plot(X[k], Y[k], colorGraphs[k%len(colorGraphs)])
 
+plt.setp(axs[-1], xlabel='Time (in epochs)')
+for i in range(NB_DEVICES):
+    plt.setp(axs[i], ylabel='AoI (in epochs)')
 
 plt.savefig("AOI_graph.jpg")
 
