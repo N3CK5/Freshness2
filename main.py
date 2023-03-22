@@ -105,15 +105,40 @@ for i in range(len(devicesList)):
 
 fig, axs = plt.subplots(NB_DEVICES, sharex=True, sharey=True)
 fig.suptitle("Subplots for age of information")
-for k in range(NB_DEVICES):
-    for i in range(len(devicesList[k].comms_history) - 1): 
+"""for k in range(NB_DEVICES):
+    for i in range(len(devicesList[k].comms_history) - 1):
         axs[k].plot([devicesList[k].comms_history[i][1], devicesList[k].comms_history[i+1][0]], [0, devicesList[k].comms_history[i+1][0] - devicesList[k].comms_history[i][0]])
         axs[k].vlines(x = devicesList[k].comms_history[i+1][0], ymin = 0, ymax = devicesList[k].comms_history[i+1][0] - devicesList[k].comms_history[i][0])
         axs[k].hlines(y = 0, xmin = devicesList[k].comms_history[i][0], xmax = devicesList[k].comms_history[i][1])
+"""
+
+X = [[] for k in range(NB_DEVICES)]
+Y = [[] for k in range(NB_DEVICES)]
+colorGraphs = {0: 'g-', 1:'b-', 2:'r-',3:'c-', 4:'k-', 5:'m-'}
+
+for k in range(NB_DEVICES):
+    X[k].append(0)
+    Y[k].append(0)
+    X[k].append(devicesList[k].comms_history[0][0])
+    Y[k].append(devicesList[k].comms_history[0][0])
+    for i in range(len(devicesList[k].comms_history) - 1):
+        X[k].append(devicesList[k].comms_history[i][0])
+        Y[k].append(0)
+        X[k].append(devicesList[k].comms_history[i][1])
+        X[k].append(devicesList[k].comms_history[i+1][0])
+        Y[k].append(0)
+        Y[k].append(devicesList[k].comms_history[i+1][0] - devicesList[k].comms_history[i][0])
+        X[k].append(devicesList[k].comms_history[i+1][0])
+        Y[k].append(0)
     
+    if devicesList[k].comms_history[i+1][0] < SIM_LIFESPAN - SIM_TF:
+        X[k].append(SIM_LIFESPAN)
+        Y[k].append(SIM_LIFESPAN - devicesList[k].comms_history[i+1][0])
+    axs[k].plot(X[k], Y[k], colorGraphs[k%len(colorGraphs)])
+
 
 plt.savefig("AOI_graph.jpg")
-    
+
 #print(mainMonitor.db)
 #animation = snap.animate()
 #animation.save('animation.gif', writer='PillowWriter', fps=2)
