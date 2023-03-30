@@ -82,7 +82,6 @@ while(sim.isRunning):
 
     sim.predictDevices()
     
-    #wait for a number of epoch
     sim.activateDevices(mainMonitor)
     #print(sim.activatedDevicesList)
 
@@ -94,7 +93,8 @@ while(sim.isRunning):
     
     if(sim.isEnd()):
         sim.end()
-    
+
+
 for i in range(len(devicesList)):
     print(devicesList[i].p_e)
     devicesList[i].comms_history = [element[0] for element in devicesList[i].comms_history if len(element) > 1]
@@ -117,6 +117,57 @@ for i in range(NB_DEVICES):
 
 fig, axs = plt.subplots(NB_DEVICES, sharex=True, sharey=True)
 fig.suptitle("Age of Information for each device")
+
+def returnMoyAoIOfADevice(commsHistory):
+    # Uses only the comms_history when each communication is written with the beginning epoch ONLY
+    if len(commsHistory) == 0:
+        return SIM_LIFESPAN
+    sumCommsAoI = commsHistory[0]
+    j = 1
+    for i in range(len(commsHistory)-1):
+        sumCommsAoI += commsHistory[i+1] - commsHistory[i]
+        j+=1
+    sumCommsAoI += SIM_LIFESPAN - commsHistory[-1]
+    j+=1
+    return sumCommsAoI/(len(commsHistory)+1)
+
+def returnMaxAoIOfADevice(commsHistory):
+    # Uses only the comms_history when each communication is written with the beginning epoch ONLY
+    if len(commsHistory) == 0:
+        return SIM_LIFESPAN
+    maxCommsAoI = commsHistory[0]
+    for i in range(len(commsHistory)-1):
+        if maxCommsAoI < commsHistory[i+1] - commsHistory[i]:
+            maxCommsAoI = commsHistory[i+1] - commsHistory[i]
+    maxCommsAoI = max(maxCommsAoI, SIM_LIFESPAN - commsHistory[-1])
+    return maxCommsAoI
+
+def returnMinAoIOfADevice(commsHistory):
+    # Uses only the comms_history when each communication is written with the beginning epoch ONLY
+    if len(commsHistory) == 0:
+        return SIM_LIFESPAN
+    minCommsAoI = commsHistory[0]
+    for i in range(len(commsHistory)-1):
+        if minCommsAoI > commsHistory[i+1] - commsHistory[i]:
+            minCommsAoI = commsHistory[i+1] - commsHistory[i]
+    minCommsAoI = min(minCommsAoI, SIM_LIFESPAN - commsHistory[-1])
+    return minCommsAoI
+
+print("Device   Moy  Max  Min")
+moyAoI = 0
+minAoI = math.inf
+maxAoI = 0
+for i in range(NB_DEVICES):
+    moyAoiDev = returnMoyAoIOfADevice(devicesList[i].comms_history)
+    maxAoIDev = returnMaxAoIOfADevice(devicesList[i].comms_history)
+    minAoIDev = returnMinAoIOfADevice(devicesList[i].comms_history)
+    moyAoI, maxAoI, minAoI = moyAoI + moyAoiDev, max(maxAoI, maxAoIDev), min(minAoI, minAoIDev)
+    # We print here the mean, min and max value of the AoI of each device then of the network
+    print("Device", i, moyAoiDev, maxAoIDev, minAoIDev)
+print("Results:")
+print("Mean of the AoI: ", moyAoI/NB_DEVICES)
+print("Max of the AoI: ", maxAoI)
+print("Min of the AoI: ", minAoI)
 
 
 X = [[] for k in range(NB_DEVICES)]
