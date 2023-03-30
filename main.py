@@ -4,7 +4,6 @@ from simulation import Simulation
 from Aloha import Aloha
 from results import Results
 import numpy as np
-import math
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
