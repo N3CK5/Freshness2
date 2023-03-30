@@ -98,17 +98,19 @@ class Results():
     
     '''
     Function ploting the AoI of the devices
+
+    param : [int] nbDevicesToDisplay : corresponds to the number of devices whose AoI must be displayed
     '''
-    def plotAoIGraphs(self):
-        fig, axs = plt.subplots(len(self.devicesList), sharex=True, sharey=True)
+    def plotAoIGraphs(self, nbDevicesToDisplay):
+        fig, axs = plt.subplots(nbDevicesToDisplay, sharex=True, sharey=True)
         fig.suptitle("Age of Information for each device")
 
-        X = [[] for k in range(len(self.devicesList))]
-        Y = [[] for k in range(len(self.devicesList))]
+        X = [[] for k in range(nbDevicesToDisplay)]
+        Y = [[] for k in range(nbDevicesToDisplay)]
         #colorGraphs = {0: 'g-', 1:'b-', 2:'r-',3:'c-', 4:'k-', 5:'m-'}
         colorGraphs = {0: 'g-', 1:'b-', 2:'r-',3:'c-', 4:'orange', 5:'k-', 6:'m-'}
 
-        for k in range(len(self.devicesList)):
+        for k in range(nbDevicesToDisplay):
             X[k].append(0)
             Y[k].append(0)
             if len(self.devicesList[k].comms_history) == 0:
@@ -126,15 +128,14 @@ class Results():
                 Y[k].append(self.devicesList[k].comms_history[i+1] - self.devicesList[k].comms_history[i])
                 X[k].append(self.devicesList[k].comms_history[i+1])
                 Y[k].append(0)
-            if self.devicesList[k].comms_history[i+1] < self.lifespan:
-                X[k].append(self.devicesList[k].comms_history[i+1])
-                Y[k].append(0)
-                X[k].append(self.lifespan)
-                Y[k].append(self.lifespan - self.devicesList[k].comms_history[i+1])
+            X[k].append(self.devicesList[k].comms_history[i+1])
+            Y[k].append(0)
+            X[k].append(self.lifespan)
+            Y[k].append(self.lifespan - self.devicesList[k].comms_history[i+1])
             axs[k].plot(X[k], Y[k], colorGraphs[k%len(colorGraphs)])
 
         plt.setp(axs[-1], xlabel='Time (in epochs)')
-        for i in range(len(self.devicesList)):
+        for i in range(nbDevicesToDisplay):
             plt.setp(axs[i], ylabel='AoI (in epochs)')
 
         plt.savefig("AOI_graph.jpg")

@@ -99,7 +99,7 @@ while(sim.isRunning):
 
 results = Results(devicesList, SIM_LIFESPAN)
 results.modifyCommsHistories()
-results.plotAoIGraphs()
+results.plotAoIGraphs(NB_DEVICES) # Be careful with high values of NB_DEVICES !!!
 results.printResultsAoI()
 
 
