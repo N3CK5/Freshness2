@@ -47,7 +47,7 @@ class Device(Aloha):
     return : [dict] package information if transmission occured, [bool] 0 if transmission didnt occur
     '''
     def transmit(self, information, target):
-        if (random.random() < 0.2): 
+        if (random.random() < self.p_e): 
             self.isActive = True
             return target.receive(self.package(self.id, information))
         else:

@@ -10,8 +10,8 @@ from matplotlib.patches import Rectangle
 from celluloid import Camera
 
 #CONSTANTS
-NB_DEVICES = 5
-SIM_LIFESPAN = 100
+NB_DEVICES = 50
+SIM_LIFESPAN = 1000
 SIM_TF = 3
 ITERATIONS_ALOHA = 60
 
@@ -95,10 +95,9 @@ while(sim.isRunning):
         sim.end()
 
 #--------------------------RESULTS OF THE SIMULATION--------------------------------#
-
 results = Results(devicesList, SIM_LIFESPAN)
 results.modifyCommsHistories()
-results.plotAoIGraphs(NB_DEVICES) # Be careful with high values of NB_DEVICES !!!
+results.plotAoIGraphs(5) # Be careful with high values of NB_DEVICES !!!
 results.printResultsAoI()
 
 

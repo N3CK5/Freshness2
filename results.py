@@ -80,6 +80,7 @@ class Results():
     Function printing the results of the simulation
     '''
     def printResultsAoI(self):
+        print("___### Results of SIMULATION ###___")
         print("Device   Moy  Max  Min")
         moyAoI = 0
         minAoI = math.inf
@@ -107,7 +108,6 @@ class Results():
 
         X = [[] for k in range(nbDevicesToDisplay)]
         Y = [[] for k in range(nbDevicesToDisplay)]
-        #colorGraphs = {0: 'g-', 1:'b-', 2:'r-',3:'c-', 4:'k-', 5:'m-'}
         colorGraphs = {0: 'g-', 1:'b-', 2:'r-',3:'c-', 4:'orange', 5:'k-', 6:'m-'}
 
         for k in range(nbDevicesToDisplay):
