@@ -58,7 +58,10 @@ snap = Camera(fig)
 def display(activatedDevicesList, camera):
     
     for device in activatedDevicesList:
-        rectangle = Rectangle((sim.epochs, device['id'] - 1), 1, 1, edgecolor = 'orange', facecolor='orange', lw = 1)
+        if len(activatedDevicesList) > 1:
+            rectangle = Rectangle((sim.epochs, device['id'] - 1), 1, 1, edgecolor = 'None', facecolor='red', lw = 1)
+        else :
+            rectangle = Rectangle((sim.epochs, device['id'] - 1), 1, 1, edgecolor = 'None', facecolor='green', lw = 1)
         listOfPatches.append([device['id'],rectangle])
     
     for patch in listOfPatches:
@@ -66,12 +69,17 @@ def display(activatedDevicesList, camera):
         rx, ry = patch[1].get_xy()
         cx = rx + patch[1].get_width()/2.0
         cy = ry + patch[1].get_height()/2.0
-        #ax.annotate('device  {}'.format(patch[0]), (cx, cy), color='green', weight='bold', fontsize=6, ha='center', va='center')
+        #ax.annotate('{}'.format(patch[0]), (cx, cy), color='black', weight='bold', fontsize=6, ha='center', va='center')
     
-    plt.xticks([i*10 for i in range(SIM_LIFESPAN//10+1)], [i*10 for i in range(SIM_LIFESPAN//10+1)],rotation=0)
+    plt.xticks([i*10 for i in range(SIM_LIFESPAN//10+1)], [i*10 for i in range(SIM_LIFESPAN//10+1)], rotation=0)
+    plt.yticks([i+0.5 for i in range(NB_DEVICES)], ["Device" + str(i) for i in range(1, NB_DEVICES+1)], rotation=0)
+    plt.plot([0, SIM_LIFESPAN], [0, 0], color = "white", linewidth=0.5)
+    plt.plot([0, SIM_LIFESPAN], [NB_DEVICES, NB_DEVICES], color = "white", linewidth=0.5)
+    for i in range(1, NB_DEVICES):
+        plt.plot([0, SIM_LIFESPAN], [i, i], color = "grey", linewidth=0.35)
     plt.title("Simulation for " + str(NB_DEVICES) + " devices with lifespan " + str(SIM_LIFESPAN))
     plt.xlabel("Time (in epochs)")
-    plt.ylabel("Device")
+    plt.axis([0, SIM_LIFESPAN, 0, NB_DEVICES])
     plt.pause(0.1)
     camera.snap()
 
