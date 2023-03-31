@@ -10,8 +10,8 @@ from matplotlib.patches import Rectangle
 from celluloid import Camera
 
 #CONSTANTS
-NB_DEVICES = 50
-SIM_LIFESPAN = 1000
+NB_DEVICES = 5
+SIM_LIFESPAN = 50
 SIM_TF = 3
 ITERATIONS_ALOHA = 60
 
@@ -52,13 +52,13 @@ x_vals = []
 y_vals = []
 listOfPatches = []
 #setup snpashot cam
-#snap = Camera(fig)
+snap = Camera(fig)
 
 #Display function for processing data and displaying it with matplotlib
 def display(activatedDevicesList, camera):
     
     for device in activatedDevicesList:
-        rectangle = Rectangle((sim.epochs, device['id'] - 1), 1, 1, edgecolor = 'green', facecolor='none', lw = 1)
+        rectangle = Rectangle((sim.epochs, device['id'] - 1), 1, 1, edgecolor = 'orange', facecolor='orange', lw = 1)
         listOfPatches.append([device['id'],rectangle])
     
     for patch in listOfPatches:
@@ -67,8 +67,9 @@ def display(activatedDevicesList, camera):
         cx = rx + patch[1].get_width()/2.0
         cy = ry + patch[1].get_height()/2.0
         #ax.annotate('device  {}'.format(patch[0]), (cx, cy), color='green', weight='bold', fontsize=6, ha='center', va='center')
-        
-    plt.pause(0.1)    
+    
+    plt.xticks([i*10 for i in range(SIM_LIFESPAN//10+1)], [i*10 for i in range(SIM_LIFESPAN//10+1)],rotation=0)
+    plt.pause(0.1)
     camera.snap()
 
 
@@ -86,13 +87,15 @@ while(sim.isRunning):
     #print(sim.activatedDevicesList)
 
 
-    #display(sim.activatedDevicesList, snap)
+    display(sim.activatedDevicesList, snap)
     print(sim.status())
     
     sim.epochs += 1
     
     if(sim.isEnd()):
         sim.end()
+
+#-----------------------------------------------------------------------------------#
 
 #--------------------------RESULTS OF THE SIMULATION--------------------------------#
 results = Results(devicesList, SIM_LIFESPAN)
@@ -102,6 +105,6 @@ results.printResultsAoI()
 
 
 #print(mainMonitor.db)
-#animation = snap.animate()
-#animation.save('animation.gif', writer='PillowWriter', fps=2)
-
+animation = snap.animate()
+animation.save('animation.gif', writer='PillowWriter', fps=2)
+#-----------------------------------------------------------------------------------#
