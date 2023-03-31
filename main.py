@@ -69,6 +69,9 @@ def display(activatedDevicesList, camera):
         #ax.annotate('device  {}'.format(patch[0]), (cx, cy), color='green', weight='bold', fontsize=6, ha='center', va='center')
     
     plt.xticks([i*10 for i in range(SIM_LIFESPAN//10+1)], [i*10 for i in range(SIM_LIFESPAN//10+1)],rotation=0)
+    plt.title("Simulation for " + str(NB_DEVICES) + " devices with lifespan " + str(SIM_LIFESPAN))
+    plt.xlabel("Time (in epochs)")
+    plt.ylabel("Device")
     plt.pause(0.1)
     camera.snap()
 
