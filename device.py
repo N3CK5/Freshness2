@@ -7,7 +7,7 @@ class Device(Aloha):
     
     Attributes:
         - [int] id = ID of the device
-        - [float] probaP = probability of the device for sending a package
+        - [int] state = probability of the device for sending a package
         - [bool] isActive = Is the device sending a package or not
         - [int] epoch = LOCAL epoch for the device used to track how many epochs elapsed after device started his transmission
     '''
@@ -20,7 +20,7 @@ class Device(Aloha):
         self.p_e = p_e
         self.isActive = isActive
         self.epoch = epoch
-        self.probaP = 0
+        self.state = 0
         self.lambda_e_iterSuivante = self.lambda_e
         self.comms_history = []
 
@@ -37,8 +37,8 @@ class Device(Aloha):
     Param : None
     return : None
     '''
-    def predict(self):
-        self.probaP = random.random()
+    def predict(self, SIM_WAITING_TIME):
+        self.state = random.randint(1, SIM_WAITING_TIME)
 
     '''
     function for transmitting the information based on probabilities 
@@ -46,10 +46,11 @@ class Device(Aloha):
     Param :[_] information, [Monitor] target
     return : [dict] package information if transmission occured, [bool] 0 if transmission didnt occur
     '''
-    def transmit(self, information, target):
-        if (random.random() < self.p_e): 
-            self.isActive = True
-            return target.receive(self.package(self.id, information))
+    def transmit(self, information, target, SIM_WAITING_TIME):
+        if (random.random() < self.p_e) and (self.state >= SIM_WAITING_TIME): 
+                self.isActive = True
+                self.state = 0
+                return target.receive(self.package(self.id, information))
         else:
             return 0
     '''

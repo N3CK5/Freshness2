@@ -40,10 +40,9 @@ class Simulation():
     param : None 
     return : None
     '''
-    def predictDevices(self):
+    def predictDevices(self, SIM_WAITING_TIME):
         for device in self.nodes:
-            device.predict()
-            #print(str(device) + ' probability P is ' + str(device.probaP))
+            device.predict(SIM_WAITING_TIME)
             
     '''
     Function that makes each device listen to the network, so as later that it sends its information only if no other device is communicating
@@ -65,7 +64,7 @@ class Simulation():
     param :[Monitor] monitor 
     return : None
     '''
-    def activateDevices(self, monitor):
+    def activateDevices(self, monitor, SIM_WAITING_TIME):
         if self.oneDeviceIsAlreadyCommunicating():
             return
         else :
@@ -74,7 +73,7 @@ class Simulation():
                     #adding t_debut to comms history
                     device.comms_history.append([self.epochs])
                     
-                    self.activatedDevicesList.append(device.transmit("Aloha !", monitor))
+                    self.activatedDevicesList.append(device.transmit("Aloha !", monitor, SIM_WAITING_TIME))
                 
             self.activatedDevicesList = [device for device in self.activatedDevicesList if device != 0]
         
@@ -113,6 +112,10 @@ class Simulation():
         #status is called every main loop iteration (=every epoch)
         #making sure transmission duration = TF for transmitting devices
         listOfDeviceToRemove = []
+        
+        for device in self.nodes:
+            device.state += 1
+            
         for device in self.activatedDevicesList:
             if device['self'].isActive:
                 device['self'].epoch += 1
@@ -129,11 +132,6 @@ class Simulation():
         
         return "EPOCH {}".format(self.epochs)
 
-    def waitToSend(self, epoch):
-        if self.epochs > epoch:
-            return True
-        else:
-            return False
     
     '''
     Function removeDevice to remove a device from the list of activated devices in the Network

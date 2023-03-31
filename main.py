@@ -14,7 +14,7 @@ NB_DEVICES = 5
 SIM_LIFESPAN = 50
 SIM_TF = 3
 ITERATIONS_ALOHA = 60
-
+SIM_WAITING_TIME = 10
 
 #INITIALIZING Simulation, Devices and Monitor
 devicesList = [Device(i+1, w_e = 1, theta_e = NB_DEVICES, lambda_e = 1, p_e = 0.5) for i in range(NB_DEVICES)]
@@ -81,12 +81,11 @@ def display(activatedDevicesList, camera):
 sim = Simulation(devicesList, SIM_LIFESPAN, SIM_TF)
 sim.start()
 
+sim.predictDevices(SIM_WAITING_TIME)
 #Main Simulation Loop
 while(sim.isRunning):
-
-    sim.predictDevices()
     
-    sim.activateDevices(mainMonitor)
+    sim.activateDevices(mainMonitor, SIM_WAITING_TIME)
     #print(sim.activatedDevicesList)
 
 
