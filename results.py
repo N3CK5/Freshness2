@@ -37,16 +37,16 @@ class Results():
     '''
     def returnMoyAoIOfADevice(self, commsHistory):
         # Uses only the comms_history when each communication is written with the beginning epoch ONLY
-        if len(commsHistory) == 0:
-            return self.lifespan
-        sumCommsAoI = commsHistory[0]
-        j = 1
+        if len(commsHistory) <= 1:
+            return (self.lifespan+1)/2
+        sumCommsAoI = 0
         for i in range(len(commsHistory)-1):
-            sumCommsAoI += commsHistory[i+1] - commsHistory[i]
-            j+=1
-        sumCommsAoI += self.lifespan - commsHistory[-1]
-        j+=1
-        return sumCommsAoI/(len(commsHistory)+1)
+            AoI = 0
+            for t in range(commsHistory[i], commsHistory[i+1]):
+                sumCommsAoI += AoI
+                AoI += 1
+            
+        return sumCommsAoI/(commsHistory[-1] - commsHistory[0])
     
     '''
     Function returning the maximum value of the AoI of a device
