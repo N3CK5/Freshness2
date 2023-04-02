@@ -74,6 +74,13 @@ class Results():
                 minCommsAoI = commsHistory[i+1] - commsHistory[i]
         return minCommsAoI
     
+    def returnMoyAoIGlobal(self):
+        moyAoI = 0
+        for i in range(len(self.devicesList)):
+            moyAoiDev = self.returnMoyAoIOfADevice(self.devicesList[i].comms_history)
+            moyAoI += moyAoiDev
+        return moyAoI/len(self.devicesList)
+    
     '''
     Function printing the results of the simulation
     '''
@@ -91,7 +98,7 @@ class Results():
             # We print here the mean, min and max value of the AoI of each device then of the network
             print("Device", i, moyAoiDev, maxAoIDev, minAoIDev)
         print("Results:")
-        print("Mean of the AoI: ", moyAoI/len(self.devicesList))
+        print("Average of the AoI: ", moyAoI/len(self.devicesList))
         print("Max of the AoI: ", maxAoI)
         print("Min of the AoI: ", minAoI)
     
@@ -133,6 +140,7 @@ class Results():
             axs[k].plot(X[k], Y[k], colorGraphs[k%len(colorGraphs)])
 
         plt.setp(axs[-1], xlabel='Time (in epochs)')
+        axs[-1].set(xlim = (0, self.lifespan))
         for i in range(nbDevicesToDisplay):
             plt.setp(axs[i], ylabel='AoI (in epochs)')
 
