@@ -55,11 +55,10 @@ class Results():
         # Uses only the comms_history when each communication is written with the beginning epoch ONLY
         if len(commsHistory) == 0:
             return self.lifespan
-        maxCommsAoI = commsHistory[0]
+        maxCommsAoI = 0
         for i in range(len(commsHistory)-1):
             if maxCommsAoI < commsHistory[i+1] - commsHistory[i]:
                 maxCommsAoI = commsHistory[i+1] - commsHistory[i]
-        maxCommsAoI = max(maxCommsAoI, self.lifespan - commsHistory[-1])
         return maxCommsAoI
     
     '''
@@ -69,11 +68,10 @@ class Results():
         # Uses only the comms_history when each communication is written with the beginning epoch ONLY
         if len(commsHistory) == 0:
             return self.lifespan
-        minCommsAoI = commsHistory[0]
+        minCommsAoI = self.lifespan
         for i in range(len(commsHistory)-1):
             if minCommsAoI > commsHistory[i+1] - commsHistory[i]:
                 minCommsAoI = commsHistory[i+1] - commsHistory[i]
-        minCommsAoI = min(minCommsAoI, self.lifespan - commsHistory[-1])
         return minCommsAoI
     
     '''
